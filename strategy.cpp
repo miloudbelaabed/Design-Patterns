@@ -1,99 +1,18 @@
 #include <iostream>
 using namespace std;
 
-/*class IFlyBehaivior {
-public:
-    virtual void fly() = 0;
-};
-
-class IFlyBehaiviourConcrete:IFlyBehaivior {
-
-    void fly() {
-        cout << " i Flay concrete here ! " << endl;
-    }
-};
-class NoIFlyBehaiviourConcrete:IFlyBehaivior {
-    void fly() {
-        cout << "i cant fly " << endl;
-    }
-};
-class IQuackBehaibvior {
-public:
-    virtual void quack() = 0;
-};
-class IQuackBehaiviorConcrete:IQuackBehaibvior {
-    void quack() {
-        cout << " i quack concrete:: "<<endl;
-    }
-};
-class NoIQuackBehaiviorConcrete:IQuackBehaibvior {
-    void quack() {
-        cout << " No concrete behaivior:: " << endl;
-    }
-};
-
-class Duck {
-private:
-    IQuackBehaibvior *iq;
-    IFlyBehaivior *ifl;
-public:
-    Duck(IFlyBehaiviourConcrete *iq = nullptr, IFlyBehaivior *ifl = nullptr) {
-        this->iq = reinterpret_cast<IQuackBehaibvior *>(iq);
-        this->ifl = ifl;
-    }
-
-    void fly() {
-        this->ifl->fly();
-    }
-    void quack() {
-        this->iq->quack();
-    }
-};*/
-// SECOND EXAMPLE
- /*class strategy {
-public:
-    virtual int doOperation(int x, int y) = 0;
-};
-class Operationadd : public strategy {
-public:
-    int doOperation(int x, int y) {
-        return x+y;
-    }
-};
-class Operationsub : public strategy {
-public:
-    int doOperation(int x, int y) {
-        return x-y;
-    }
-};
-class Operationmul : public strategy {
-public:
-    int doOperation(int x, int y) {
-        return x*y;
-    }
-};
-class Context {
-public:
-    strategy *sr;
-public:
-    Context(strategy *st = nullptr) {
-        this->sr = st;
-    }
-    int Operation(int x,int y) {
-        return this->sr->doOperation(x,y);
-    }
-};*/
-// ***********************************************************
 class IJumpBehaivior {
 public:
     virtual void jump() = 0;
 };
-class LongJump : IJumpBehaivior {
+class LongJump : public IJumpBehaivior {
+private:
     void jump() override {
         cout << " Long jumping... :: " << endl;
     }
 };
-class ShortJump : IJumpBehaivior{
+class ShortJump : public IJumpBehaivior{
+private:
     void jump() override {
         cout << "Short Jump ... " << endl;
     }
@@ -127,6 +46,15 @@ public:
         this->ij = ij;
     }
 
+    void setIr(IRollBehaivior *ir) {
+        this->ir = ir;
+    }
+
+    void setIj(IJumpBehaivior *ij) {
+        this->ij = ij;
+    }
+
+
     virtual void display() = 0;
     void kick() {
         cout << "I'm kicking right now ! " << endl;
@@ -144,40 +72,36 @@ public:
 
 class RyuConcrete : public Fighter {
 public:
+    RyuConcrete(IRollBehaivior *ir= nullptr, IJumpBehaivior *ij= nullptr) :  Fighter(ir,ij) {}
     void display() override {
         cout << "hi I'm RyuConcrete! " << endl;
     }
 };
 class  KenConcrete : public Fighter {
 public:
+    KenConcrete(IRollBehaivior *ir= nullptr, IJumpBehaivior *ij= nullptr) :  Fighter(ir,ij) {}
     void display() override {
         cout << "Hi there ! I'm a KenConcrete ! " << endl;
     }
 };
 
-class ChunLiConcrete : public Fighter{
+ class ChunLiConcrete : public Fighter{
 public:
+    ChunLiConcrete(IRollBehaivior *ir= nullptr, IJumpBehaivior *ij= nullptr) :  Fighter(ir,ij) {}
     void display() override {
         cout << "I'm rolling in ChunLi concrete ! " << endl;
     }
 };
 
 int main() {
-
-    ChunLiConcrete *cn = new ChunLiConcrete();
+    LongJump *ljj = new LongJump();
+    TornadoRoll *tn = new TornadoRoll();
+    ChunLiConcrete *cn = new ChunLiConcrete(tn, ljj);
     cn->display();
     cn->jump();
     cn->roll();
-
-    /*Duck GoodDuck = *new Duck(new IFlyBehaiviourConcrete, reinterpret_cast<IFlyBehaivior *>(new IQuackBehaiviorConcrete));
-    GoodDuck.quack();
-    GoodDuck.fly();*/
-
-//    Context *cn = new Context(new Operationmul);
-//
-//    cn->Operation(10,20);
-//Fighter *f = new Fighter(new KenConcrete)
-
-
+    ShortJump *sh = new ShortJump();
+    cn->setIj(sh);
+    cn->jump();
     return 0;
 }
