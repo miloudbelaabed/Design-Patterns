@@ -13,49 +13,45 @@ class espreso : public Beverage {
     return 1;
   }
 };
-class mikl : public Beverage {
-  public :
-  int cost(){
-    return 3;
-  }
-};
+
 class milk : public Beverage {
   int cost() {
     
-    return 1;
+    return 2;
   }
 };
 
 class addOnDecorator: public Beverage {
+protected:
+Beverage* b;
   public:
-  virtual int cost() = 0;
+  addOnDecorator(Beverage* b) {
+    this->b = b;
+  }
+  
 };
 
+
 class caramel : public addOnDecorator {
-Beverage* b;
 public:
-caramel(Beverage* b) {
-  this->b = b;
-}
+caramel(Beverage *b):addOnDecorator(b) {};
 int cost() {
   return this->b->cost() + 2;
 }
 };
 class chocklet : public addOnDecorator {
-  Beverage* b;
   public:
-  chocklet(Beverage* b) {
-    this->b = b;
-  }
+  chocklet(Beverage* b):addOnDecorator(b) {};
   int cost() {
-    return this->cost() + 3;
+    return this->b->cost() + 3;
   }
 };
+
 int menu() {
   int n;
   cout << "chose your beverege from the list bellow : " << endl;
-  cout << "1- espresso "  << endl;
-  cout << "2 - milk " << endl;
+  cout << "1- espresso 1 da"  << endl;
+  cout << "2 - milk 2 da" << endl;
   cin >> n ;
   return n;
 }
@@ -85,20 +81,18 @@ int main() {
   cin >> addon;
   if (addon == 1)
   {
-    
-  
-  
+
   int ans;
-  cout << "1: caramel " << endl;
-  cout << "2: chocklet " << endl;
+  cout << "1: caramel 2 da" << endl;
+  cout << "2: chocklet 3 da" << endl;
   cin >> ans;
   switch (ans)
   {
   case 1:
-    Beverage* c = new caramel(beverage);
+    beverage = new caramel(beverage);
     break;
   case 2:
-    Beverage* d = new chocklet(beverage);
+    beverage = new chocklet(beverage);
     break;
   default:
     cout<< "its not in the list "<< endl;
