@@ -22,13 +22,14 @@ class milk : public Beverage {
 };
 
 class addOnDecorator: public Beverage {
-protected:
 Beverage* b;
   public:
   addOnDecorator(Beverage* b) {
     this->b = b;
   }
-  
+  int cost() {
+    return this->b->cost();
+  } 
 };
 
 
@@ -36,14 +37,14 @@ class caramel : public addOnDecorator {
 public:
 caramel(Beverage *b):addOnDecorator(b) {};
 int cost() {
-  return this->b->cost() + 2;
+  return addOnDecorator::cost() + 2;
 }
 };
 class chocklet : public addOnDecorator {
   public:
   chocklet(Beverage* b):addOnDecorator(b) {};
   int cost() {
-    return this->b->cost() + 3;
+    return addOnDecorator::cost() + 3;
   }
 };
 
@@ -81,7 +82,6 @@ int main() {
   cin >> addon;
   if (addon == 1)
   {
-
   int ans;
   cout << "1: caramel 2 da" << endl;
   cout << "2: chocklet 3 da" << endl;
@@ -103,7 +103,6 @@ int main() {
    break;
 
   }
-
   }
   cout <<"your cost : "<< beverage->cost();
   return 0;
